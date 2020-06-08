@@ -1,7 +1,16 @@
+const { ErrorModel, SuccessModel } = require('../model/resModel');
+const { loginToBlog } = require('../controller/user');
+
 const handleUserRouter = (req, res) => {
-    const { method, path, query } = req;
+    const { method, path, body } = req;
     if (method === 'POST' && path === '/api/user/login') {
-        return { message: '你访问了登录接口' };
+        const { username, password } = body;
+        const result = loginToBlog(username, password);
+        if (result) {
+            return new SuccessModel('登录成功');
+        } else {
+            return new ErrorModel('登录失败');
+        }
     }
 };
 

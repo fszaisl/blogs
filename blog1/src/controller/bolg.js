@@ -1,6 +1,5 @@
 const getBlogList = (author, keyword) => {
-    return [
-        {
+    return [{
             id: 1,
             title: '博客A',
             content: '博客内容A',
@@ -35,6 +34,20 @@ const newBlog = (data) => {
     return { id: 3 }
 }
 
+const updateBlog = (data = {}) => {
+    const { id, title, content } = data;
+    return true;
+}
+
+const delBlog = (id = '') => {
+    console.log(`delBlog`, id)
+    return true;
+}
+
 module.exports = {
-    getBlogList, getDetail, newBlog
+    getBlogList,
+    getDetail,
+    newBlog,
+    updateBlog,
+    delBlog,
 }
