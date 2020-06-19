@@ -1,32 +1,39 @@
+const { mysqlExec } = require('../db/mySql');
+const _ = require('lodash');
+const moment = require('moment');
+
+const formatDate = data => moment(data).format('YYYY-MM-DD HH:mm:ss');
+
+
 const getBlogList = (author, keyword) => {
-    return [{
-            id: 1,
-            title: '博客A',
-            content: '博客内容A',
-            author: '张三',
-            createTime: '2020-04-06',
-            updateTime: '2020-04-06',
-        },
-        {
-            id: 2,
-            title: '博客B',
-            content: '博客内容B',
-            author: '李四',
-            createTime: '2020-04-06',
-            updateTime: '2020-04-06',
-        }
-    ]
+    let sql = `select * from blogs where 1=1 `;
+    if (author) {
+        sql += `and author='${author}' `;
+    }
+    if (keyword) {
+        sql += `and title like '%${keyword}%' `;
+    }
+    sql += `order by createtime desc`;
+    return mysqlExec(sql).then(bloglist => {
+        _.forEach(bloglist, blog => {
+            blog.createtime = formatDate(blog.createtime);
+        })
+        return bloglist;
+    });
 };
 
 const getDetail = (id) => {
-    return {
-        id: 2,
-        title: '博客B',
-        content: '博客内容B',
-        author: '李四',
-        createTime: '2020-04-06',
-        updateTime: '2020-04-06',
-    }
+    let sql = `select * from blogs where id='${id}'`;
+    // console.log(`sql=${sql}`)
+    return mysqlExec(sql).then((blogs = []) => {
+        let [blog = {}] = blogs;
+        blog.createtime = formatDate(blog.createtime);
+        if (blog.updatetime) {
+            blog.updatetime = formatDate(blog.updatetime);
+        }
+        // console.log(`blog=`, JSON.stringify(blog))
+        return blog
+    });
 }
 
 const newBlog = (data) => {
