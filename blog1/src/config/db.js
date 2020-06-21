@@ -7,7 +7,8 @@ if (env === 'dev') {
         port: 3306,
         user: 'root',
         password: 'fsz#1984929',
-        database: 'myblog'
+        database: 'myblog',
+        insecureAuth : true
     };
 }
 
