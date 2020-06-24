@@ -1,9 +1,15 @@
 const _ = require('lodash');
 const querystring = require('querystring');
-const { v5: uuidv5 } = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 const handleBlogRouter = require('./src/router/blog');
 const handleUserRouter = require('./src/router/user');
 
+const getExpiresTime = () => {
+    let time = Date.now();
+    time += 24 * 60 * 60 * 1000;
+    // time += 10 * 1000;
+    return new Date(time).toUTCString();
+}
 
 const getPostData = (req) => {
     return new Promise((resolve, reject) => {
@@ -49,6 +55,12 @@ const getCookies = (req) => {
     return cookie;
 };
 
+const setCookie = (res, sId, isSet = false) => {
+    if (isSet) {
+        res.setHeader('Set-Cookie', `sId=${sId}; path=/; httpOnly; expires=${getExpiresTime()}; `)
+    }
+}
+
 const SESSION_DATA = {};
 
 const serverHandle = (req, res) => {
@@ -64,22 +76,19 @@ const serverHandle = (req, res) => {
     req.cookie = getCookies(req);
 
     // 解析session
-    let sessionId = req.cookie.sessionId;
-    if (!sessionId) {
-        sessionId = uuidv5();
+    let { sId = uuidv4() } = req.cookie, needSetCookie = false;
+    if (!SESSION_DATA[sId]) {
+        SESSION_DATA[sId] = {};
+        needSetCookie = true;
     }
-    if (!SESSION_DATA[sessionId]) {
-        SESSION_DATA[sessionId] = {};
-    }
-    req.session = SESSION_DATA[sessionId];
-    console.log(`sessionId==`, sessionId)
-    console.log(`req.session==`, req.session)
+    req.session = SESSION_DATA[sId];
     console.log(`SESSION_DATA==`, SESSION_DATA)
 
     getPostData(req).then(postData => {
         req.body = postData;
         const blogResult = handleBlogRouter(req, res);
         if (blogResult) {
+            setCookie(res, sId, needSetCookie);
             blogResult.then(blogData => {
                 res.end(JSON.stringify(blogData));
             });
@@ -88,6 +97,7 @@ const serverHandle = (req, res) => {
 
         const userResult = handleUserRouter(req, res);
         if (userResult) {
+            setCookie(res, sId, needSetCookie);
             userResult.then(userData => {
                 res.end(JSON.stringify(userData));
             });
