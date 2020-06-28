@@ -3,6 +3,7 @@ const querystring = require('querystring');
 const { v4: uuidv4 } = require('uuid');
 const handleBlogRouter = require('./src/router/blog');
 const handleUserRouter = require('./src/router/user');
+const redis = require('./src/db/redis');
 
 const getExpiresTime = () => {
     let time = Date.now();
@@ -61,8 +62,6 @@ const setCookie = (res, sId, isSet = false) => {
     }
 }
 
-const SESSION_DATA = {};
-
 const serverHandle = (req, res) => {
     // 设置返回格式
     // res.setHeader('Access-Control-Allow-Origin', '*');
@@ -76,15 +75,25 @@ const serverHandle = (req, res) => {
     req.cookie = getCookies(req);
 
     // 解析session
-    let { sId = uuidv4() } = req.cookie, needSetCookie = false;
-    if (!SESSION_DATA[sId]) {
-        SESSION_DATA[sId] = {};
+    let sId = req.cookie.sId, needSetCookie = false;
+    if (!sId) {
+        sId = uuidv4();
         needSetCookie = true;
     }
-    req.session = SESSION_DATA[sId];
-    console.log(`SESSION_DATA==`, SESSION_DATA)
+    req.sessionId = sId;
 
-    getPostData(req).then(postData => {
+    redis.get(req.sessionId).then(sessionData => {
+        console.log(`sessionData===`, sessionData === null)
+        if (sessionData === null) {
+            req.session = {}
+            redis.set(req.sessionId, {});
+        } else {
+            req.session = sessionData;
+        }
+        console.log(`SESSION_DATA==`, req.session)
+
+        return getPostData(req);
+    }).then(postData => {
         req.body = postData;
         const blogResult = handleBlogRouter(req, res);
         if (blogResult) {
