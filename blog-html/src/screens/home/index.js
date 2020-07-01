@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Layout, Row, Col } from 'antd';
-import HeaderNav from '../headerNav';
+import HeaderNav from '../header';
 
 const { Header, Content, Sider, Footer } = Layout;
 

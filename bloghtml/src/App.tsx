@@ -3,10 +3,13 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  let num: number = 100;
+  num = 30;
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        {`这里新加了一个变量${num}`}
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>

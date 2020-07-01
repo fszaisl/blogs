@@ -15,15 +15,16 @@ const getExpiresTime = () => {
 const getPostData = (req) => {
     return new Promise((resolve, reject) => {
         const { method, headers } = req;
-
         if (method !== 'POST') {
             resolve({});
             return
         }
-        if (headers['content-type'] !== 'application/json') {
+        if (!(headers['content-type'] === 'application/json' || headers['content-type'] === 'application/json;charset=UTF-8')) {
             resolve({});
             return
         }
+
+        console.log()
 
         let postData = ''
         req.on('data', chunk => {
@@ -34,6 +35,7 @@ const getPostData = (req) => {
                 resolve(postData);
                 return;
             }
+            console.log(`postData`, postData)
             resolve(JSON.parse(postData));
         });
 
@@ -75,7 +77,8 @@ const serverHandle = (req, res) => {
     req.cookie = getCookies(req);
 
     // 解析session
-    let sId = req.cookie.sId, needSetCookie = false;
+    let sId = req.cookie.sId,
+        needSetCookie = false;
     if (!sId) {
         sId = uuidv4();
         needSetCookie = true;

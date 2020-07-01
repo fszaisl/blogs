@@ -1,11 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Result } from 'antd';
 
-class NotFound extends Component {
-
-
-    render() {
-        return (<div>404 NotFound</div>)
-    }
+export default function () {
+    return (<Result
+        status="404"
+        title="404"
+        subTitle="Sorry, the page you visited does not exist."
+    // extra={<Button type="primary">Back Home</Button>}
+    />)
 }
 
-export default NotFound;
+// class NotFound extends Component {
+//     render() {
+//         return
+//     }
+// }
+
+// export default NotFound;
