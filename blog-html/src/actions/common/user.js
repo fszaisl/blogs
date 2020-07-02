@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { UPDATE_USER_DATA } from '../../constant/common/actionTypes';
+import { isFunction } from 'lodash-es';
 
 const loginUrl = '/api/user/login'
 
@@ -11,15 +12,23 @@ const updateUserData = (data) => {
 }
 
 
-const login = (data) => {
+const login = (data, scb, ecb) => {
     return dispatch => {
         axios.post(loginUrl, data)
             .then(res => {
-                return res.data
+                return res.data || {}
             })
             .then(res => {
-                console.log(res)
-                dispatch(updateUserData(res));
+                if (res.hasError) {
+                    if (isFunction(ecb)) {
+                        ecb(res.message)
+                    }
+                    return
+                }
+                dispatch(updateUserData(res.data));
+                if (isFunction(scb)) {
+                    scb(res)
+                }
             })
             .catch(error => {
                 console.log(error)

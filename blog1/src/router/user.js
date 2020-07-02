@@ -11,7 +11,7 @@ const handleUserRouter = (req, res) => {
         return loginToBlog(username, password).then(result => {
             Object.assign(session, result);
             redis.set(sessionId, session)
-            return new SuccessModel('登录成功');
+            return new SuccessModel(result, '登录成功');
         }).catch(error => {
             console.log(`loginToBlog= ErrorModel ==`, error)
             return new ErrorModel('登录失败');
