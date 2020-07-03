@@ -1,18 +1,17 @@
-import { merge, isEqual, isEmpty } from 'lodash-es';
+import { isEqual } from 'lodash-es';
 import {
     UPDATE_USER_DATA
 } from '../../constant/common/actionTypes';
 
-
 const switchMap = {};
 switchMap[UPDATE_USER_DATA] = (state, action) => {
     let { username, realname } = action.payload;
-    return merge(state, { userName: username, realName: realname })
+    return Object.assign({}, state, { username, realname });
 }
 
 let initUser = {
-    realName: '',
-    userName: ''
+    realname: '',
+    username: ''
 }
 
 const User = (state = initUser, action) => {

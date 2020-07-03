@@ -7,6 +7,7 @@ import Header from './header'
 import Login from './login';
 import LoginSuccess from './loginSuccess';
 import NotFound from './404';
+import Home from './home';
 import Register from './register';
 import 'antd/dist/antd.css';
 
@@ -21,7 +22,7 @@ function App() {
 				<Switch>
 					<Route path='/login' component={Login} />
 					<Route path='/loginSuccess' component={LoginSuccess} />
-					<Route path='/home' component={LoginSuccess} />
+					<Route path='/home' component={Home} />
 					<Route path='/' component={NotFound} />
 				</Switch>
 			</Content>

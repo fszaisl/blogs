@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Row, Col } from 'antd';
+import { Layout, Row, Col, List } from 'antd';
 import HeaderNav from '../header';
 
 const { Header, Content, Sider, Footer } = Layout;
@@ -8,23 +8,14 @@ const { Header, Content, Sider, Footer } = Layout;
 
 class Home extends Component {
 
+    constructor(props) {
+        super()
+    }
+
 
     render() {
         return (<Layout>
-            <Header>
-                <Row>
-                    <Col span={4} style={{ fontSize: '26px', color: '#fff' }} >博客系统</Col>
-                    <Col span={20}><HeaderNav /></Col>
-                </Row>
-            </Header>
-            <Content>
-                <Layout>
-                    <Sider>123</Sider>
-                    <Content>12312</Content>
-                </Layout>
-            </Content>
-
-            <Footer></Footer>
+            <List></List>
         </Layout>)
     }
 }

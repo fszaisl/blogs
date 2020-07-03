@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Divider, Layout, Row, Col } from 'antd';
 import { Link, } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 
 
 import styles from './style.module.css'
@@ -26,7 +26,7 @@ class Haeder extends Component {
     render() {
         const { userName } = this.props;
 
-        console.log(userName)
+        console.log(`userName`, userName)
 
         return (< Header  >
             <Row>
@@ -46,9 +46,7 @@ class Haeder extends Component {
                                 <Link to='/newblog' className={styles.headerNav} > 退出 </Link>
                             </Fragment >
                         ) : (
-                                <Fragment >
-                                    <Link to='/login' className={styles.headerNav} > 登录 </Link>
-                                </ Fragment >
+                                <Link to='/login' className={styles.headerNav} > 登录 </Link>
                             )
                     }
                 </Col>
@@ -58,12 +56,10 @@ class Haeder extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const { user: { userName, realName } } = state;
-    console.log(state)
+    const { user: { username, realname } } = state;
     return {
-        userName: realName, userId: userName
+        userName: realname, userId: username
     }
 }
-
 
 export default connect(mapStateToProps)(Haeder);

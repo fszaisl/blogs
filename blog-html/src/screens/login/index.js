@@ -22,13 +22,14 @@ class Login extends Component {
     }
 
     onFinish = values => {
-        const { dispatch } = this.props;
+        const { dispatch, history } = this.props;
         const { username, password, remember } = values;
         this.setState(() => ({ loading: true }));
         dispatch(
             login({ username, password },
                 () => {
                     this.setState(() => ({ loading: false }));
+                    history.push('/loginSuccess');
                 },
                 errorMessage => {
                     message.warning(errorMessage);
@@ -40,6 +41,7 @@ class Login extends Component {
 
     render() {
         const { loading } = this.state;
+
         return (
             <Card style={{ width: '600px', margin: '100px auto', padding: '34px 24px' }}>
                 <Spin spinning={loading}>
@@ -51,23 +53,15 @@ class Login extends Component {
                     // onFinishFailed={this.onFinishFailed}
                     >
 
-                        <Item
-                            label='用户名' name='username'
-                            rules={[{ required: true, message: '请输入用户名' }]}
-                        >
+                        <Item label='用户名' name='username' rules={[{ required: true, message: '请输入用户名' }]} >
                             <Input placeholder='请输入用户名' autoComplete='off' />
                         </Item>
 
-                        <Item
-                            label='密码' name='password'
-                            rules={[{ required: true, message: '请输入密码' }]}
-                        >
+                        <Item label='密码' name='password' rules={[{ required: true, message: '请输入密码' }]}>
                             <Input.Password placeholder='请输入密码' autoComplete='off' />
                         </Item>
 
-                        <Item
-                            name='remember' valuePropName='checked' label=' ' colon={false}
-                        >
+                        <Item name='remember' valuePropName='checked' label=' ' colon={false}>
                             <Checkbox>记住密码</Checkbox>
                         </Item>
 
@@ -86,13 +80,4 @@ class Login extends Component {
     }
 }
 
-
-const mapStateToProps = (state) => {
-    const { user: { userName, realName } } = state;
-    console.log(state)
-    return {
-        userName: realName, userId: userName
-    }
-}
-
-export default connect(mapStateToProps)(Login);
+export default connect()(Login);

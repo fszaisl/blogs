@@ -9,7 +9,7 @@ import './index.css';
 
 
 ReactDOM.render(
-  <Provider store={srore}>
+  <Provider store={srore()}>
     <BrowserRouter>
       {/* <React.StrictMode> */}
         <App />
