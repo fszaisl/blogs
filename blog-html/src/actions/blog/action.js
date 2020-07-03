@@ -7,20 +7,21 @@ import {
 
 const getBlogListUrl = `/api/blog/list`;
 
-const updateBlogList = data => ({ data, type: UPDATE_BLOG_LIST });
-const updateBlogListLoading = data => ({ data, type: UPDATE_BLOG_LIST_LOADING });
-const updateBlogListPagination = data => ({ data, type: UPDATE_BLOG_LIST_PAGINATION });
+const updateBlogList = payload => ({ payload, type: UPDATE_BLOG_LIST });
+const updateBlogListLoading = payload => ({ payload, type: UPDATE_BLOG_LIST_LOADING });
+const updateBlogListPagination = payload => ({ payload, type: UPDATE_BLOG_LIST_PAGINATION });
 const getBlogList = (data) => {
     return dispatch => {
         dispatch(updateBlogListLoading({ loading: true }));
         axios.get(getBlogListUrl, data)
             .then(res => res.data || {})
             .then(res => {
-                const { hasError, message, data } = res
+                const { hasError, message, data } = res;
                 if (hasError) {
                     return
                 }
                 dispatch(updateBlogListLoading({ loading: false }));
+                console.log(updateBlogList(data))
                 dispatch(updateBlogList(data))
             })
             .catch(error => {
@@ -29,6 +30,6 @@ const getBlogList = (data) => {
     }
 }
 
-export default {
+export {
     getBlogList
 }

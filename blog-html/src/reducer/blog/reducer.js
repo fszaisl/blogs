@@ -13,10 +13,21 @@ let initBlog = {
     pagination: {
         pageIndex: 0,
         pageSize: 10
-    }
+    },
+    details: {}
 };
 
 switchMap[UPDATE_BLOG_LIST] = (state, action) => {
+    return Object.assign({}, state, { list: action.payload })
+}
+
+switchMap[UPDATE_BLOG_LIST_LOADING] = (state, action) => {
+
+
+    return state
+}
+
+switchMap[UPDATE_BLOG_LIST_PAGINATION] = (state, action) => {
 
 
     return state
@@ -24,10 +35,11 @@ switchMap[UPDATE_BLOG_LIST] = (state, action) => {
 
 const blog = (state = initBlog, action) => {
     const { type } = action;
-
+    console.log(action)
     if (switchMap[type]) {
-
-        return
+        return switchMap[type](state, action);
     }
     return state
 }
+
+export { blog }
