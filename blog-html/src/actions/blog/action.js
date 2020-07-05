@@ -3,7 +3,7 @@ import {
     UPDATE_BLOG_LIST,
     UPDATE_BLOG_LIST_LOADING,
     UPDATE_BLOG_LIST_PAGINATION,
-} from '../../constant/blog/actionTypes';
+} from '../../constants/blog/actionTypes';
 
 const getBlogListUrl = `/api/blog/list`;
 

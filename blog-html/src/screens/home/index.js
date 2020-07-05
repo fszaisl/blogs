@@ -38,6 +38,7 @@ class Home extends Component {
         console.log(blogList)
         return (<div style={{ backgroundColor: '#fff', padding: '20px 40px' }} >
             <List
+                itemLayout='vertical'
                 loading={loading}
                 dataSource={blogList}
                 renderItem={item => (
