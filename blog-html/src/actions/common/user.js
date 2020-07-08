@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { UPDATE_USER_DATA } from '../../constant/common/actionTypes';
+import { UPDATE_USER_DATA } from '../../constants/common/actionTypes';
 import { isFunction } from 'lodash-es';
 
 const loginUrl = '/api/user/login'

@@ -1,7 +1,7 @@
 import { isEqual } from 'lodash-es';
 import {
     UPDATE_USER_DATA
-} from '../../constant/common/actionTypes';
+} from '../../constants/common/actionTypes';
 
 const switchMap = {};
 switchMap[UPDATE_USER_DATA] = (state, action) => {
