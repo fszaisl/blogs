@@ -43,14 +43,13 @@ class Home extends Component {
                 renderItem={item => (
                     <List.Item
                         actions={[
-                            <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
-                            <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
-                            <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
+                            <IconText icon={StarOutlined} text="编辑" key="list-vertical-star-o" />,
+                            <IconText icon={LikeOutlined} text="删除" key="list-vertical-like-o" />,
                         ]}
                     >
                         <Skeleton avatar title={false} loading={item.loading} active>
                             <List.Item.Meta
-                                avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                                // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
                                 title={item.title}
                                 description={item.content}
                             />

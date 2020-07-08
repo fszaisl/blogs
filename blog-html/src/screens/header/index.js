@@ -43,7 +43,7 @@ class Haeder extends Component {
                             <Fragment>
                                 <Link to='/newblog' className={styles.headerNav} > {`${userName}你好，欢迎登录博客系统`} </Link>
                                 <Divider type='vertical' />
-                                <Link to='/newblog' className={styles.headerNav} > 退出 </Link>
+                                <Link to='/login' className={styles.headerNav} > 退出 </Link>
                             </Fragment >
                         ) : (
                                 <Link to='/login' className={styles.headerNav} > 登录 </Link>
