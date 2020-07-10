@@ -1,13 +1,15 @@
-const { mysqlExec } = require('../db/mySql');
+const { mysqlExec, escape } = require('../db/mySql');
 const _ = require('lodash');
 const moment = require('moment');
+const xss = require('xss');
 
 const formatDate = data => moment(data).format('YYYY-MM-DD HH:mm:ss');
 
 const getBlogList = (author = '', keyword = '') => {
     let sql = `select * from blogs where 1=1 `;
     if (author) {
-        sql += `and author='${author}' `;
+        let _author = escape(author); // 预防mysql注入
+        sql += `and author='${_author}' `;
     }
     if (keyword) {
         sql += `and title like '%${keyword}%' `;
@@ -36,7 +38,10 @@ const getDetail = (id = '') => {
 }
 
 const newBlog = (data = {}) => {
-    const { title, content, author } = data;
+    let { title, content, author } = data;
+    title = xss(title); // 预防xss攻击
+    content = xss(content); // 预防xss攻击
+
     const sql = `insert into blogs (title,content,author,createtime) values (
         '${title}','${content}','${author}',now() 
     );`;
@@ -51,7 +56,9 @@ const newBlog = (data = {}) => {
 }
 
 const updateBlog = (data = {}) => {
-    const { id, title, content, author } = data;
+    let { id, title, content, author } = data;
+    title = xss(title); // 预防xss攻击
+    content = xss(content); // 预防xss攻击
     const sql = `update blogs set 
     title = '${title}' , 
     content = '${content}' , 

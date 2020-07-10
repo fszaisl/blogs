@@ -19,5 +19,6 @@ const mysqlExec = (sql) => {
 }
 
 module.exports = {
-    mysqlExec
+    mysqlExec,
+    escape: mysql.escape
 }

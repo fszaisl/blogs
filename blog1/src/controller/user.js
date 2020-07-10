@@ -1,7 +1,11 @@
-const { mysqlExec } = require('../db/mySql');
+const { mysqlExec, escape } = require('../db/mySql');
+const { encryption } = require('../utils/crypto');
 
 const loginToBlog = (username, password) => {
-    const sql = `select id,username,realname from users where username='${username}' and password='${password}' ;`
+    let _username = escape(username); // 预防sql注入
+    console.log(encryption(password)); // 密码加密，必须放到escape后面
+    let _password = escape(password); // 预防sql注入
+    const sql = `select id,username,realname from users where username=${_username} and password=${_password} ;`
     return mysqlExec(sql).then((rows = []) => {
         if (rows[0]) {
             return rows[0]

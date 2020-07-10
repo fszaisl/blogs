@@ -4,6 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 const handleBlogRouter = require('./src/router/blog');
 const handleUserRouter = require('./src/router/user');
 const redis = require('./src/db/redis');
+const { accessLog } = require('./src/utils/loger');
 
 const getExpiresTime = () => {
     let time = Date.now();
@@ -11,6 +12,7 @@ const getExpiresTime = () => {
     // time += 10 * 1000;
     return new Date(time).toUTCString();
 }
+
 
 const getPostData = (req) => {
     return new Promise((resolve, reject) => {
@@ -23,8 +25,6 @@ const getPostData = (req) => {
             resolve({});
             return
         }
-
-        console.log()
 
         let postData = ''
         req.on('data', chunk => {
@@ -69,12 +69,14 @@ const serverHandle = (req, res) => {
     // res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Content-Type', 'application/json');
 
-    const { url } = req;
+    const { url, method, headers } = req;
     // 处理path，query
     let [path, querys] = url.split('?');
     req.path = path;
     req.query = querystring.parse(querys);
     req.cookie = getCookies(req);
+
+    accessLog(`${method} -- ${headers['user-agent']} -- ${url}`);
 
     // 解析session
     let sId = req.cookie.sId,
@@ -98,6 +100,7 @@ const serverHandle = (req, res) => {
         return getPostData(req);
     }).then(postData => {
         req.body = postData;
+
         const blogResult = handleBlogRouter(req, res);
         if (blogResult) {
             setCookie(res, sId, needSetCookie);
