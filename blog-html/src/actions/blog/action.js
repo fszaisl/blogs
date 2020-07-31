@@ -21,7 +21,7 @@ const getBlogList = (data) => {
                     return
                 }
                 dispatch(updateBlogListLoading({ loading: false }));
-                console.log(updateBlogList(data))
+                // console.log(updateBlogList(data))
                 dispatch(updateBlogList(data))
             })
             .catch(error => {

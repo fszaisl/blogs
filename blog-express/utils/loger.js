@@ -3,7 +3,7 @@ const path = require('path');
 
 const createWriteStream = (fileName) => {
     const fullFileName = path.join(__dirname, '../../logs', fileName);
-    console.log(fullFileName);
+    // console.log(fullFileName);
     return fs.createWriteStream(fullFileName, { flags: 'a' })
 }
 const writeLog = (stream, log) => {

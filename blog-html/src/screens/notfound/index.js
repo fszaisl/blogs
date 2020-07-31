@@ -9,11 +9,3 @@ export default function () {
     // extra={<Button type="primary">Back Home</Button>}
     />)
 }
-
-// class NotFound extends Component {
-//     render() {
-//         return
-//     }
-// }
-
-// export default NotFound;

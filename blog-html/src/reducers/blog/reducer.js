@@ -35,7 +35,6 @@ switchMap[UPDATE_BLOG_LIST_PAGINATION] = (state, action) => {
 
 const blog = (state = initBlog, action) => {
     const { type } = action;
-    console.log(action)
     if (switchMap[type]) {
         return switchMap[type](state, action);
     }

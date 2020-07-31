@@ -16,7 +16,6 @@ const getBlogList = (author = '', keyword = '') => {
         sql += `and title like '%${keyword}%' `;
     }
     sql += `order by createtime desc`;
-    console.log(`sql===${sql}`)
     return mysqlExec(sql).then(bloglist => {
         _.forEach(bloglist, blog => {
             blog.createtime = formatDate(blog.createtime);
@@ -26,7 +25,8 @@ const getBlogList = (author = '', keyword = '') => {
 };
 
 const getDetail = (id = '') => {
-    let sql = `select * from blogs where id='${id}'`;
+    id = escape(id); // 预防mysql注入
+    let sql = `select * from blogs where id=${id}`;
     // console.log(`sql=${sql}`)
     return mysqlExec(sql).then((blogs = []) => {
         let [blog = {}] = blogs;
@@ -43,11 +43,12 @@ const newBlog = (data = {}) => {
     let { title, content, author } = data;
     title = xss(title); // 预防xss攻击
     content = xss(content); // 预防xss攻击
-
+    title = escape(title); // 预防mysql注入
+    content = escape(content); // 预防mysql注入
     const sql = `insert into blogs (title,content,author,createtime) values (
-        '${title}','${content}','${author}',now() 
+        ${title},${content},'${author}',now() 
     );`;
-    console.log(`sql = ${sql}`)
+    // console.log(`sql = ${sql}`)
     return mysqlExec(sql).then((insertData = {}) => {
         let { affectedRows, insertId } = insertData;
         if (affectedRows > 0 && insertId) {
@@ -59,11 +60,15 @@ const newBlog = (data = {}) => {
 
 const updateBlog = (data = {}) => {
     let { id, title, content, author } = data;
+    id = xss(id); // 预防xss攻击
     title = xss(title); // 预防xss攻击
     content = xss(content); // 预防xss攻击
+    id = escape(id); // 预防mysql注入
+    title = escape(title); // 预防mysql注入
+    content = escape(content); // 预防mysql注入
     const sql = `update blogs set 
-    title = '${title}' , 
-    content = '${content}' , 
+    title = ${title} , 
+    content = ${content} , 
     updatetime = now() 
     where id=${id} and author='${author}' ;`
 
@@ -72,18 +77,20 @@ const updateBlog = (data = {}) => {
         if (changedRows > 0) {
             return true;
         }
-        return Promise.reject();
+        return false
     })
 }
 
-const delBlog = (id = '', author = '') => {
+const delBlog = (params = {}) => {
+    let { id, author } = params;
     const sql = `delete from blogs where id='${id}' and author='${author}' ;`
+        // console.log(`sql===${sql}`)
     return mysqlExec(sql).then((deleteData = {}) => {
         const { affectedRows } = deleteData;
         if (affectedRows > 0) {
             return true;
         }
-        return Promise.reject()
+        return false
     })
 }
 

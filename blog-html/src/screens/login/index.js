@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Input, Button, Checkbox, Card, Row, Col, Spin, message } from 'antd';
-import { login } from '../../actions/common/user'
+import { login, getUserInfo } from '../../actions/common/user'
 const Item = Form.Item;
 const formLayout = {
     labelCol: { span: 6 },
@@ -23,13 +23,16 @@ class Login extends Component {
 
     onFinish = values => {
         const { dispatch, history } = this.props;
-        const { username, password, remember } = values;
+        const { username, password } = values;
         this.setState(() => ({ loading: true }));
         dispatch(
             login({ username, password },
                 () => {
+                    // this.setState(() => ({ loading: false }));
+                    history.push('/home');
+                    message.success('登录成功');
                     this.setState(() => ({ loading: false }));
-                    history.push('/loginSuccess');
+                    dispatch(getUserInfo({}));
                 },
                 errorMessage => {
                     message.warning(errorMessage);
@@ -37,6 +40,12 @@ class Login extends Component {
                 }
             )
         );
+    }
+
+    toRegister = (e) => {
+        e.preventDefault();
+        const { history } = this.props;
+        history.push('/register');
     }
 
     render() {
@@ -68,7 +77,7 @@ class Login extends Component {
                         <Row>
                             <Col span={16} offset={6}>
                                 <Button type='primary' htmlType='submit'>登 录</Button>
-                                <Button type='default' style={{ marginLeft: '16px' }} htmlType='submit'>注 册</Button>
+                                <Button type='default' style={{ marginLeft: '16px' }} onClick={this.toRegister} >注 册</Button>
                             </Col>
                         </Row>
 
