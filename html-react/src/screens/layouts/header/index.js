@@ -41,16 +41,16 @@ class Haeder extends Component {
             <Row>
                 <Col span={4} style={{ fontSize: '26px', color: '#fff' }} >博客系统</Col>
                 <Col span={20} style={{ textAlign: 'right' }}>
-                    <Link className={styles.headerNav} to='/home' > 首页 </Link>
+                    <Link className={styles.headerNav} to='/home/home' > 首页 </Link>
+                    <Divider type='vertical' />
+                    <Link className={styles.headerNav} to='/home/myblog' > 我的博客 </Link>
+                    <Divider type='vertical' />
+                    <Link className={styles.headerNav} to='/home/newblog' > 新建博客 </Link>
                     <Divider type='vertical' />
                     {
                         userName ? (
                             <Fragment>
-                                <Link className={styles.headerNav} to='/myblog' > 我的博客 </Link>
-                                <Divider type='vertical' />
-                                <Link className={styles.headerNav} to='/newblog' > 新建博客 </Link>
-                                <Divider type='vertical' />
-                                <Link to='/newblog' className={styles.headerNav} > {`${userName}你好，欢迎登录博客系统`} </Link>
+                                <Link to='/home/newblog' className={styles.headerNav} > {`${userName}你好，欢迎登录博客系统`} </Link>
                                 <Divider type='vertical' />
                                 <Link to='/login' className={styles.headerNav} onClick={this.logOut} > 退出 </Link>
                             </Fragment >
