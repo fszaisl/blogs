@@ -29,7 +29,7 @@ class Home extends Component {
         const { dispatch } = this.props;
         const { id = '' } = record;
         // dispatch()
-        console.log(id, evt)
+        // console.log(id, evt)
     }
 
 

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Divider, Layout, Row, Col } from 'antd';
-import { Link, } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { getUserInfo, logOut } from '../../../actions/common/user'
 // import axios from 'axios';
 
@@ -41,21 +41,21 @@ class Haeder extends Component {
             <Row>
                 <Col span={4} style={{ fontSize: '26px', color: '#fff' }} >博客系统</Col>
                 <Col span={20} style={{ textAlign: 'right' }}>
-                    <Link className={styles.headerNav} to='/home/home' > 首页 </Link>
+                    <NavLink className={styles.headerNav} to={{ pathname: "/home/home", state: { title: '首页' } }} > 首页 </NavLink>
                     <Divider type='vertical' />
-                    <Link className={styles.headerNav} to='/home/myblog' > 我的博客 </Link>
+                    <NavLink className={styles.headerNav} to={{ pathname: "/home/myblog", state: { title: '我的博客' } }} > 我的博客 </NavLink>
                     <Divider type='vertical' />
-                    <Link className={styles.headerNav} to='/home/newblog' > 新建博客 </Link>
+                    <NavLink className={styles.headerNav} to={{ pathname: "/home/newblog", state: { title: '新建博客' } }} > 新建博客 </NavLink>
                     <Divider type='vertical' />
                     {
                         userName ? (
                             <Fragment>
-                                <Link to='/home/newblog' className={styles.headerNav} > {`${userName}你好，欢迎登录博客系统`} </Link>
+                                <NavLink to='/home/newblog' className={styles.headerNav} > {`${userName}你好，欢迎登录博客系统`} </NavLink>
                                 <Divider type='vertical' />
-                                <Link to='/login' className={styles.headerNav} onClick={this.logOut} > 退出 </Link>
+                                <NavLink to='/login' className={styles.headerNav} onClick={this.logOut} > 退出 </NavLink>
                             </Fragment >
                         ) : (
-                                <Link to='/login' className={styles.headerNav} > 登录 </Link>
+                                <NavLink to='/login' className={styles.headerNav} > 登录 </NavLink>
                             )
                     }
                 </Col>

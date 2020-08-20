@@ -14,7 +14,8 @@ let initBlog = {
         pageIndex: 0,
         pageSize: 10
     },
-    details: {}
+    details: {},
+    loading: false,
 };
 
 switchMap[UPDATE_BLOG_LIST] = (state, action) => {
@@ -22,14 +23,11 @@ switchMap[UPDATE_BLOG_LIST] = (state, action) => {
 }
 
 switchMap[UPDATE_BLOG_LIST_LOADING] = (state, action) => {
-
-
-    return state
+    console.log(state, action.payload)
+    return Object.assign({}, state, action.payload)
 }
 
 switchMap[UPDATE_BLOG_LIST_PAGINATION] = (state, action) => {
-
-
     return state
 }
 

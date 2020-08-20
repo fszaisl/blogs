@@ -16,20 +16,20 @@ class Home extends Component {
 
 
     getBlogList = (params = {}) => {
-        const { dispatch } = this.props;
-        dispatch(getBlogList({}))
+        const { dispatch, userId } = this.props;
+        dispatch(getBlogList({ author: userId }))
     }
 
     componentDidMount() {
         this.getBlogList()
-        console.log(this.props)
+        // console.log(this.props)
     }
 
     delBlog = (record = {}, evt) => {
         const { dispatch } = this.props;
         const { id = '' } = record;
         // dispatch()
-        console.log(id, evt)
+        // console.log(id, evt)
     }
 
 
@@ -67,6 +67,8 @@ const mapStateToProps = (state) => {
     return {
         blogList: state.blog.list,
         loading: state.blog.loading,
+        userName: state.user.userName,
+        userId: state.user.userId,
     }
 }
 

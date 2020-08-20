@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Form, Input, Button, Checkbox, Card, Row, Col, Spin, message, Layout } from 'antd';
 import { login, getUserInfo } from '../../actions/common/user';
 import Header from '../layouts/header';
@@ -31,7 +32,6 @@ class Login extends Component {
         const _form = this.refs[formName];
         let { remember = false, username = '', password = '' } = localStorage;
         if (remember) {
-            console.log(username,password)
             username = deCrypt(username);
             password = deCrypt(password);
             _form.setFieldsValue({ remember, username, password })
@@ -54,6 +54,7 @@ class Login extends Component {
     onFinish = values => {
         const { dispatch, history } = this.props;
         const { username, password } = values;
+
         this.setState(() => ({ loading: true }));
         dispatch(
             login({ username, password },
@@ -77,8 +78,6 @@ class Login extends Component {
         const { history } = this.props;
         history.push('/register');
     }
-
-
 
     componentDidMount() {
         this.getRememberPassword();
@@ -126,10 +125,9 @@ class Login extends Component {
                     </Spin>
                 </Card>
             </Content>
-            <Footer>123123</Footer>
         </Layout>);
     }
 }
 
 
-export default connect()(Login);
+export default connect()(withRouter(Login));

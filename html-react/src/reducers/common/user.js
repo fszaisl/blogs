@@ -13,7 +13,7 @@ let initUser = {
     userId: ''
 }
 
-const User = (state = initUser, action) => {
+const user = (state = initUser, action) => {
     const { type } = action;
     if (switchMap[type]) {
         return switchMap[type](state, action);
@@ -21,4 +21,4 @@ const User = (state = initUser, action) => {
     return state
 }
 
-export default User;
+export default user;
