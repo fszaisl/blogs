@@ -1,0 +1,5 @@
+@mixin logo-ss ($width:100px, $heigh:100px) {
+    width: $width;
+    height: $heigh;
+    background-color: #666666;
+}
